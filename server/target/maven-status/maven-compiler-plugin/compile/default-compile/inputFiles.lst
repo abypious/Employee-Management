@@ -1,5 +1,13 @@
 /home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/EmployeeManagementApplication.java
+/home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/controller/DashboardController.java
+/home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/controller/DepartmentController.java
 /home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/controller/EmployeeController.java
+/home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/dto/DashboardStats.java
+/home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/model/Department.java
 /home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/model/Employee.java
+/home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/model/Leave.java
+/home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/model/SalaryHistory.java
+/home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/repository/DepartmentRepository.java
 /home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/repository/EmployeeRepository.java
+/home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/repository/LeaveRepository.java
 /home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/service/EmployeeService.java

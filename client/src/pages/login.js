@@ -11,6 +11,7 @@ function Login({ setIsLoggedIn }) {
     e.preventDefault();
     if (username === "admin" && password === "admin") {
       setIsLoggedIn(true);
+      localStorage.setItem("isLoggedIn", "true");
       navigate("/dashboard");
     } else {
       alert("Invalid credentials");

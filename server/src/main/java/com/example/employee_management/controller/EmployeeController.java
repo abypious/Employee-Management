@@ -1,12 +1,16 @@
 package com.example.employee_management.controller;
 
 import com.example.employee_management.model.Employee;
+import com.example.employee_management.model.Department;
 import com.example.employee_management.repository.EmployeeRepository;
+import com.example.employee_management.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Sort;
+
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000") 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
@@ -14,35 +18,92 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
+    // GET all employees (with optional sorting)
     @GetMapping
-    public List<Employee> getAllEmployees() {
+    public List<Employee> getAllEmployees(
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String order // asc or desc
+    ) {
+        if (sortBy != null) {
+            Sort sort = Sort.by(sortBy);
+            if ("desc".equalsIgnoreCase(order)) {
+                sort = sort.descending();
+            } else {
+                sort = sort.ascending();
+            }
+            return employeeRepository.findAll(sort);
+        }
         return employeeRepository.findAll();
     }
 
-    @PostMapping
-    public Employee createEmployee(@RequestBody Employee employee) {
-        return employeeRepository.save(employee);
-    }
-
+    // GET employee by ID
     @GetMapping("/{id}")
     public Employee getEmployeeById(@PathVariable Long id) {
         return employeeRepository.findById(id).orElse(null);
     }
 
+    // SEARCH employees by name, department name or job title
+    @GetMapping("/search")
+    public List<Employee> searchEmployees(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String jobTitle,
+            @RequestParam(required = false) String department
+    ) {
+        if (name != null) {
+            return employeeRepository.findByNameContainingIgnoreCase(name);
+        } else if (jobTitle != null) {
+            return employeeRepository.findByJobTitleContainingIgnoreCase(jobTitle);
+        } else if (department != null) {
+            return employeeRepository.findByDepartmentNameContainingIgnoreCase(department);
+        } else {
+            return employeeRepository.findAll();
+        }
+    }
+
+    // CREATE employee
+    @PostMapping
+    public Employee createEmployee(@RequestBody Employee employee) {
+        // Ensure department exists
+        if (employee.getDepartment() != null && employee.getDepartment().getId() != null) {
+            Department dept = departmentRepository.findById(employee.getDepartment().getId()).orElse(null);
+            employee.setDepartment(dept);
+        }
+        return employeeRepository.save(employee);
+    }
+
+    // UPDATE employee
     @PutMapping("/{id}")
     public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
         Employee employee = employeeRepository.findById(id).orElse(null);
         if (employee != null) {
             employee.setName(employeeDetails.getName());
             employee.setEmail(employeeDetails.getEmail());
-            employee.setDepartment(employeeDetails.getDepartment());
+            employee.setPhone(employeeDetails.getPhone());
+            employee.setJobTitle(employeeDetails.getJobTitle());
+            employee.setSalary(employeeDetails.getSalary());
+            employee.setDateOfJoining(employeeDetails.getDateOfJoining());
+
+            // Update department if provided
+            if (employeeDetails.getDepartment() != null && employeeDetails.getDepartment().getId() != null) {
+                Department dept = departmentRepository.findById(employeeDetails.getDepartment().getId()).orElse(null);
+                employee.setDepartment(dept);
+            }
+
             return employeeRepository.save(employee);
         }
         return null;
     }
 
+    // DELETE employee
     @DeleteMapping("/{id}")
-    public void deleteEmployee(@PathVariable Long id) {
-        employeeRepository.deleteById(id);
+    public String deleteEmployee(@PathVariable Long id) {
+        if(employeeRepository.existsById(id)) {
+            employeeRepository.deleteById(id);
+            return "Employee deleted successfully";
+        }
+        return "Employee not found";
     }
 }

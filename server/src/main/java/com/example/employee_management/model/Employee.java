@@ -1,10 +1,7 @@
 package com.example.employee_management.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "employees")
@@ -16,47 +13,51 @@ public class Employee {
 
     private String name;
     private String email;
-    private String department;
+    private String phone;
 
-    public Employee() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
 
-    public Employee(Long id, String name, String email, String department) {
+    private String jobTitle;
+    private LocalDate dateOfJoining;
+    private double salary;
+
+    public Employee() { }
+
+    public Employee(Long id, String name, String email, String phone, Department department,
+                    String jobTitle, LocalDate dateOfJoining, double salary) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.phone = phone;
         this.department = department;
+        this.jobTitle = jobTitle;
+        this.dateOfJoining = dateOfJoining;
+        this.salary = salary;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getName() {
-        return name;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
-    public String getEmail() {
-        return email;
-    }
+    public Department getDepartment() { return department; }
+    public void setDepartment(Department department) { this.department = department; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String getJobTitle() { return jobTitle; }
+    public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
 
-    public String getDepartment() {
-        return department;
-    }
+    public LocalDate getDateOfJoining() { return dateOfJoining; }
+    public void setDateOfJoining(LocalDate dateOfJoining) { this.dateOfJoining = dateOfJoining; }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
+    public double getSalary() { return salary; }
+    public void setSalary(double salary) { this.salary = salary; }
 }

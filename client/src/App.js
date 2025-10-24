@@ -5,19 +5,31 @@ import Navbar from "./components/navbar";
 import Sidebar from "./components/sidebar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/dashboard";
-import Employees from "./pages/employees";
-import Departments from "./pages/departments";
+import Employees from "./pages/Employee/employees";
+import Departments from "./pages//Department/departments";
 import Leaves from "./pages/leaves";
 import Salary from "./pages/salary";
 import Settings from "./pages/settings";
-
+import EmployeeDetails from "./pages/Employee/employee";
+import DepartmentDetails from "./pages/Department/department";
+import AddEmployee from "./pages/Employee/addEmployee";
+import AddDepartment from "./pages/Department/addDepartment";
+import UpdateEmployee from "./pages/Employee/updateEmployee";
+import UpdateDepartment from "./pages/Department/updateDepartment";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+  localStorage.getItem("isLoggedIn") === "true"
+);
+
+const handleLoginState = (state) => {
+  setIsLoggedIn(state);
+  localStorage.setItem("isLoggedIn", state);
+};
 
   return (
     <Router>
-      {isLoggedIn && <Navbar />}
+      {isLoggedIn && <Navbar setIsLoggedIn={handleLoginState} />}
       {isLoggedIn && <Sidebar />}
 
       <div className="main-content">
@@ -28,8 +40,9 @@ function App() {
           />
 
           <Route
-            path="/login"
-            element={isLoggedIn ? <Navigate to="/dashboard" replace /> : <Login setIsLoggedIn={setIsLoggedIn} />}
+            path="/login" element={ isLoggedIn ? ( <Navigate to="/dashboard" replace /> ) : 
+              (<Login setIsLoggedIn={handleLoginState} />)
+            }
           />
 
           <Route
@@ -86,6 +99,60 @@ function App() {
             }
           />
 
+          <Route
+            path="/EmployeeDetails/:id"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <EmployeeDetails />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/UpdateEmployee/:id"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <UpdateEmployee />
+              </ProtectedRoute>
+            }
+          />
+
+
+          <Route
+            path="/DepartmentDetails/:id"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <DepartmentDetails />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/UpdateDepartment/:id"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <UpdateDepartment />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/AddEmployee"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <AddEmployee />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/AddDepartment"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <AddDepartment />
+              </ProtectedRoute>
+            }
+          />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
