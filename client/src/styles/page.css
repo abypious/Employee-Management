@@ -1,0 +1,56 @@
+.page {
+  margin-left: 240px; /* leaves space for sidebar */
+  padding: 2rem;
+  min-height: calc(100vh - 56px);
+  background-color: #f9fafb;
+}
+
+.page h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1.5rem;
+}
+
+.page-content {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ===== Dashboard Section ===== */
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card h3 {
+  color: #374151;
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.card p {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+}

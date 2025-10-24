@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import EmployeeList from "./pages/employeelist";
-import AddEmployee from "./pages/employeelist";
-import EditEmployee from "./pages/employeelist";
 import Login from "./pages/login";
 import Navbar from "./components/navbar";
+import Sidebar from "./components/sidebar";
 import ProtectedRoute from "./components/ProtectedRoute";
-import "bootstrap/dist/css/bootstrap.min.css";
+import Dashboard from "./pages/dashboard";
+import Employees from "./pages/employees";
+import Departments from "./pages/departments";
+import Leaves from "./pages/leaves";
+import Salary from "./pages/salary";
+import Settings from "./pages/settings";
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -14,8 +18,9 @@ function App() {
   return (
     <Router>
       {isLoggedIn && <Navbar />}
+      {isLoggedIn && <Sidebar />}
 
-      <div className="container mt-3">
+      <div className="main-content">
         <Routes>
           <Route
             path="/"
@@ -31,26 +36,56 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>
-                <EmployeeList />
+                <Dashboard />
               </ProtectedRoute>
             }
           />
+
           <Route
-            path="/add"
+            path="/employees"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>
-                <AddEmployee />
+                <Employees />
               </ProtectedRoute>
             }
           />
+
           <Route
-            path="/edit/:id"
+            path="/departments"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>
-                <EditEmployee />
+                <Departments />
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="/leaves"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <Leaves />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/salary"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <Salary />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
+
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
