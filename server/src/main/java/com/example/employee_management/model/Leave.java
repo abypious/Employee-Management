@@ -23,8 +23,8 @@ public class Leave {
 
     private LocalDate startDate;
     private LocalDate endDate;
-    private String type; // "Sick", "Casual"
-    private String status; // "PENDING", "APPROVED", "REJECTED"
+    private String type; 
+    private String status; 
     private String reason;
 
     public Leave() { }

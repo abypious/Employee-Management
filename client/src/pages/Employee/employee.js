@@ -28,7 +28,7 @@ function EmployeeDetails() {
       try {
         await axios.delete(`http://localhost:8080/api/employees/${id}`);
         alert("Employee deleted successfully");
-        navigate("/employees"); // navigate back to list
+        navigate("/employees"); 
       } catch (error) {
         console.error("Error deleting employee:", error);
         alert("Failed to delete employee");
@@ -44,7 +44,7 @@ function EmployeeDetails() {
     return (
       <div className="page">
         <h2>Employee Details</h2>
-        <div className="page-content" style={{ textAlign: "center", padding: "2rem" }}>
+        <div className="page-content" >
           <p>Loading employee details...</p>
         </div>
       </div>
@@ -55,7 +55,7 @@ function EmployeeDetails() {
     return (
       <div className="page">
         <h2>Employee Details</h2>
-        <div className="page-content" style={{ textAlign: "center", padding: "2rem" }}>
+        <div className="page-content" >
           <p>Employee not found.</p>
         </div>
       </div>
@@ -66,52 +66,43 @@ function EmployeeDetails() {
     <div className="page">
       <h2>Employee Details</h2>
 
-      <div className="page-content" style={{ maxWidth: "600px", margin: "auto" }}>
-        <div className="employee-details-card" style={{
-          border: "1px solid #ddd",
-          borderRadius: "8px",
-          padding: "1.5rem",
-          boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-          lineHeight: "1.8",
-        }}>
-          <p><strong>ID:</strong> {employee.id}</p>
-          <p><strong>Name:</strong> {employee.name}</p>
-          <p><strong>Email:</strong> {employee.email}</p>
-          <p><strong>Phone:</strong> {employee.phone}</p>
-          <p><strong>Department:</strong> {employee.department?.name || employee.department}</p>
-          <p><strong>Job Title:</strong> {employee.jobTitle}</p>
-          <p><strong>Address:</strong> {employee.address || "N/A"}</p>
-          <p><strong>Date Joined:</strong> {employee.dateJoined || "N/A"}</p>
-        </div>
+      <div className="employee-details-card" >
+        <p><strong>ID:</strong> {employee.id}</p>
+        <p><strong>Name:</strong> {employee.name}</p>
+        <p><strong>Email:</strong> {employee.email}</p>
+        <p><strong>Phone:</strong> {employee.phone}</p>
+        <p><strong>Department:</strong> {employee.department?.name || "N/A"}</p>
+        <p><strong>Job Title:</strong> {employee.jobTitle}</p>
+        <p><strong>Salary:</strong> {employee.salary || "N/A"}</p>
+        <p><strong>Date of Joining:</strong> {employee.dateOfJoining || "N/A"}</p>
+        <p><strong>Address:</strong> {employee.address || "N/A"}</p>
+        <p><strong>Date of Birth:</strong> {employee.dateOfBirth || "N/A"}</p>
+        <p><strong>Gender:</strong> {employee.gender || "N/A"}</p>
+        <p><strong>Marital Status:</strong> {employee.maritalStatus || "N/A"}</p>
+        <p><strong>Emergency Contact:</strong> {employee.emergencyContact || "N/A"}</p>
+        <p><strong>Manager:</strong> {employee.manager?.name || "N/A"}</p>
+      </div>
 
-        <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginTop: "2rem" }}>
-          <button
-            className="btn btn-edit"
-            style={{ padding: "0.6rem 1.2rem", background: "#007bff", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
-            onClick={handleEdit}
-          >
-            Edit Employee
-          </button>
+        <div >
+          <button className="btn btn-edit" onClick={handleEdit}
+          >Edit Employee</button>
 
           <button
             className="btn btn-delete"
-            style={{ padding: "0.6rem 1.2rem", background: "#dc3545", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
             onClick={handleDelete}
           >
             Delete Employee
           </button>
         </div>
 
-        <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
+        <div >
           <button
             className="btn btn-back"
-            style={{ padding: "0.5rem 1rem", borderRadius: "4px", border: "1px solid #ccc", cursor: "pointer" }}
-            onClick={() => navigate("/employees")}
+            onClick={() => navigate(-1)}
           >
             Back to Employees
           </button>
         </div>
-      </div>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import com.example.employee_management.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -66,7 +67,6 @@ public class EmployeeController {
     // CREATE employee
     @PostMapping
     public Employee createEmployee(@RequestBody Employee employee) {
-        // Ensure department exists
         if (employee.getDepartment() != null && employee.getDepartment().getId() != null) {
             Department dept = departmentRepository.findById(employee.getDepartment().getId()).orElse(null);
             employee.setDepartment(dept);
@@ -76,26 +76,37 @@ public class EmployeeController {
 
     // UPDATE employee
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
         Employee employee = employeeRepository.findById(id).orElse(null);
-        if (employee != null) {
-            employee.setName(employeeDetails.getName());
-            employee.setEmail(employeeDetails.getEmail());
-            employee.setPhone(employeeDetails.getPhone());
-            employee.setJobTitle(employeeDetails.getJobTitle());
-            employee.setSalary(employeeDetails.getSalary());
-            employee.setDateOfJoining(employeeDetails.getDateOfJoining());
-
-            // Update department if provided
-            if (employeeDetails.getDepartment() != null && employeeDetails.getDepartment().getId() != null) {
-                Department dept = departmentRepository.findById(employeeDetails.getDepartment().getId()).orElse(null);
-                employee.setDepartment(dept);
-            }
-
-            return employeeRepository.save(employee);
+        if (employee == null) {
+            return ResponseEntity.notFound().build();
         }
-        return null;
+
+        if (employeeDetails.getName() != null) employee.setName(employeeDetails.getName());
+        if (employeeDetails.getEmail() != null) employee.setEmail(employeeDetails.getEmail());
+        if (employeeDetails.getPhone() != null) employee.setPhone(employeeDetails.getPhone());
+        if (employeeDetails.getJobTitle() != null) employee.setJobTitle(employeeDetails.getJobTitle());
+        if (employeeDetails.getSalary() != null) employee.setSalary(employeeDetails.getSalary());
+        if (employeeDetails.getDateOfJoining() != null) employee.setDateOfJoining(employeeDetails.getDateOfJoining());
+        if (employeeDetails.getDepartment() != null && employeeDetails.getDepartment().getId() != null) {
+            Department dept = departmentRepository.findById(employeeDetails.getDepartment().getId()).orElse(null);
+            employee.setDepartment(dept);
+        }
+        if (employeeDetails.getAddress() != null) employee.setAddress(employeeDetails.getAddress());
+        if (employeeDetails.getDateOfBirth() != null) employee.setDateOfBirth(employeeDetails.getDateOfBirth());
+        if (employeeDetails.getGender() != null) employee.setGender(employeeDetails.getGender());
+        if (employeeDetails.getMaritalStatus() != null) employee.setMaritalStatus(employeeDetails.getMaritalStatus());
+        if (employeeDetails.getEmergencyContact() != null) employee.setEmergencyContact(employeeDetails.getEmergencyContact());
+        if (employeeDetails.getManager() != null && employeeDetails.getManager().getId() != null) {
+            Employee manager = employeeRepository.findById(employeeDetails.getManager().getId()).orElse(null);
+            employee.setManager(manager);
+        }
+
+        Employee updatedEmployee = employeeRepository.save(employee);
+        return ResponseEntity.ok(updatedEmployee);
     }
+
+
 
     // DELETE employee
     @DeleteMapping("/{id}")

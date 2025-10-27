@@ -28,13 +28,14 @@ function Employees() {
 
   //search
   useEffect(() => {
-    const filtered = employees.filter(emp =>
-      emp.name.toLowerCase().includes(search.toLowerCase()) ||
-      emp.email.toLowerCase().includes(search.toLowerCase()) ||
-      (emp.department?.name || emp.department || "").toLowerCase().includes(search.toLowerCase())
-    );
-    setFilteredEmployees(filtered);
-  }, [search, employees]);
+  const filtered = employees.filter(emp =>
+    (emp.name || "").toLowerCase().includes(search.toLowerCase()) ||
+    (emp.email || "").toLowerCase().includes(search.toLowerCase()) ||
+    ((emp.department?.name || "")).toLowerCase().includes(search.toLowerCase())
+  );
+  setFilteredEmployees(filtered);
+}, [search, employees]);
+
 
   //sorting
   const handleSort = (key) => {

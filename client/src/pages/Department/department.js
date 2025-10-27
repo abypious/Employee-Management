@@ -7,19 +7,29 @@ function DepartmentDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [department, setDepartment] = useState(null);
+  const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/departments/${id}`)
-      .then((res) => {
+    const fetchDepartment = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8080/api/departments/${id}`);
         setDepartment(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Error fetching department:", err);
-        setLoading(false);
-      });
+      }
+    };
+
+    const fetchEmployees = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8080/api/departments/${id}/employees`);
+        setEmployees(res.data);
+      } catch (err) {
+        console.error("Error fetching employees:", err);
+      }
+    };
+
+    Promise.all([fetchDepartment(), fetchEmployees()]).finally(() => setLoading(false));
   }, [id]);
 
   const handleDelete = async () => {
@@ -39,12 +49,16 @@ function DepartmentDetails() {
     navigate(`/UpdateDepartment/${id}`);
   };
 
+  const handleEmployeeClick = (employeeId) => {
+    navigate(`/EmployeeDetails/${employeeId}`);
+  };
+
   if (loading) {
     return (
       <div className="page">
         <h2>Department Details</h2>
-        <div className="page-content" style={{ textAlign: "center", padding: "2rem" }}>
-          <p>Loading department details...</p>
+        <div className="page-content">
+          <p style={{ textAlign: "center" }}>Loading department details...</p>
         </div>
       </div>
     );
@@ -54,8 +68,8 @@ function DepartmentDetails() {
     return (
       <div className="page">
         <h2>Department Details</h2>
-        <div className="page-content" style={{ textAlign: "center", padding: "2rem" }}>
-          <p>Department not found.</p>
+        <div className="page-content">
+          <p style={{ textAlign: "center" }}>Department not found.</p>
         </div>
       </div>
     );
@@ -65,47 +79,42 @@ function DepartmentDetails() {
     <div className="page">
       <h2>Department Details</h2>
 
-      <div className="page-content" style={{ maxWidth: "600px", margin: "auto" }}>
-        <div
-          style={{
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            padding: "1.5rem",
-            boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-            lineHeight: "1.8",
-          }}
-        >
-          <p><strong>ID:</strong> {department.id}</p>
-          <p><strong>Name:</strong> {department.name}</p>
-          <p><strong>Description:</strong> {department.description || "N/A"}</p>
-        </div>
+      <div className="page-content">
+        <p><strong>ID:</strong> {department.id}</p>
+        <p><strong>Name:</strong> {department.name}</p>
+        <p><strong>Description:</strong> {department.description || "N/A"}</p>
 
-        <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginTop: "2rem" }}>
-          <button
-            className="btn btn-edit"
-            style={{ padding: "0.6rem 1.2rem", background: "#007bff", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
-            onClick={handleEdit}
-          >
-            Edit Department
-          </button>
-
-          <button
-            className="btn btn-delete"
-            style={{ padding: "0.6rem 1.2rem", background: "#dc3545", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
-            onClick={handleDelete}
-          >
-            Delete Department
-          </button>
+        <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginTop: "1.5rem" }}>
+          <button className="btn btn-edit" onClick={handleEdit}>Edit Department</button>
+          <button className="btn btn-delete" onClick={handleDelete}>Delete Department</button>
         </div>
 
         <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
-          <button
-            className="btn btn-back"
-            style={{ padding: "0.5rem 1rem", borderRadius: "4px", border: "1px solid #ccc", cursor: "pointer" }}
-            onClick={() => navigate("/departments")}
-          >
+          <button className="btn btn-back" onClick={() => navigate("/departments")}>
             Back to Departments
           </button>
+        </div>
+
+        {/* Employee List */}
+        <div className="employee-section">
+          <h3>Employees in this Department</h3>
+          {employees.length > 0 ? (
+            <div className="employee-grid">
+              {employees.map((emp) => (
+                <div
+                  key={emp.id}
+                  className="employee-card"
+                  onClick={() => handleEmployeeClick(emp.id)}
+                >
+                  <h4>{emp.name}</h4>
+                  <p><strong>Role:</strong> {emp.role || "N/A"}</p>
+                  <p><strong>Email:</strong> {emp.email || "N/A"}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="no-employees">No employees found in this department.</p>
+          )}
         </div>
       </div>
     </div>

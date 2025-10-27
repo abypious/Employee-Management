@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LeaveRepository extends JpaRepository<Leave, Long> {
-    long countByStatus(String status); // to count pending leaves
+    long countByStatus(String status); 
 }

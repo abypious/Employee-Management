@@ -21,8 +21,8 @@ public class SalaryHistory {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    private LocalDate month; // 2025-10-01
-    private double amount;
+    private LocalDate month;
+    private Double amount;
 
     public SalaryHistory() { }
 

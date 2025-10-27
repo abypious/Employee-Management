@@ -1,8 +1,12 @@
 package com.example.employee_management.controller;
 
 import com.example.employee_management.model.Department;
+import com.example.employee_management.model.Employee;
 import com.example.employee_management.repository.DepartmentRepository;
+import com.example.employee_management.repository.EmployeeRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,16 +19,13 @@ public class DepartmentController {
     @Autowired
     private DepartmentRepository departmentRepository;
 
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
     // GET all departments
     @GetMapping
     public List<Department> getAllDepartments() {
         return departmentRepository.findAll();
-    }
-
-    // GET department by ID
-    @GetMapping("/{id}")
-    public Department getDepartmentById(@PathVariable Long id) {
-        return departmentRepository.findById(id).orElse(null);
     }
 
     // GET department by Name
@@ -70,5 +71,20 @@ public class DepartmentController {
             return "Department '" + name + "' deleted successfully";
         }
         return "Department not found";
+    }
+
+    // Get department by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Department> getDepartmentById(@PathVariable Long id) {
+        return departmentRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // Get employees belonging to a specific department
+    @GetMapping("/{id}/employees")
+    public List<Employee> getEmployeesByDepartment(@PathVariable Long id) {
+        return employeeRepository.findByDepartmentId(id);
+
     }
 }

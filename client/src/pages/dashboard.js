@@ -58,7 +58,7 @@ function Dashboard() {
 
           <div className="card card-clickable" onClick={() => navigate("/salary")}>
             <h3>Monthly Payroll</h3>
-            <p>₹{stats.monthlyPayroll.toLocaleString()}</p>
+            <p>₹{stats?.monthlyPayroll?.toLocaleString() ?? "0"}</p>
           </div>
 
           <div className="card card-clickable" onClick={() => navigate("/leaves")}>
