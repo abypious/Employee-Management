@@ -33,7 +33,7 @@ function Dashboard() {
     return (
       <div className="page">
         <h2>Dashboard Overview</h2>
-        <div className="page-content" style={{ textAlign: "center", padding: "2rem" }}>
+        <div className="dashboard-content" style={{ textAlign: "center", padding: "2rem", width: "80%" }}>
           <p>Loading data...</p>
         </div>
       </div>
@@ -43,7 +43,7 @@ function Dashboard() {
   return (
     <div className="page">
       <h2>Dashboard Overview</h2>
-      <div className="page-content">
+      <div className="dashboard-content">
         <div className="dashboard-cards">
 
           <div className="card card-clickable" onClick={() => navigate("/employees")}>

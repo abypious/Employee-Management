@@ -10,13 +10,12 @@ function Settings() {
     notifications: true,
   });
 
-  useEffect(() => {
-    // Fetch current settings from API
-    axios
-      .get("http://localhost:8080/api/settings") // replace with your endpoint
-      .then((res) => setSettings(res.data))
-      .catch((err) => console.error(err));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8080/api/settings")
+  //     .then((res) => setSettings(res.data))
+  //     .catch((err) => console.error(err));
+  // }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -38,8 +37,8 @@ function Settings() {
   return (
     <div className="page">
       <h2>Settings</h2>
-      <div className="page-content">
-        <form className="form-container" onSubmit={handleSubmit}>
+      <div className="settings-card">
+        <form className="form-grid" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Username</label>
             <input
@@ -85,9 +84,9 @@ function Settings() {
           </div>
 
           <div className="button-group">
-            <button type="submit" className="btn-add">
+            <button type="reset" className="btn btn-add"> {/*change type to submit when working on settings */}
               Save Settings
-            </button>
+             </button> 
           </div>
         </form>
       </div>

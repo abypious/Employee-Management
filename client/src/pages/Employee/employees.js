@@ -6,18 +6,25 @@ import "./employee.css";
 function Employees() {
   const [employees, setEmployees] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
+  const [departments, setDepartments] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [selectedDepartment, setSelectedDepartment] = useState("All"); 
 
   const navigate = useNavigate();
 
+  // fetch employees and departments
   useEffect(() => {
-    axios.get("http://localhost:8080/api/employees")
-      .then((res) => {
-        setEmployees(res.data);
-        setFilteredEmployees(res.data);
+    Promise.all([
+      axios.get("http://localhost:8080/api/employees"),
+      axios.get("http://localhost:8080/api/departments"),
+    ])
+      .then(([empRes, deptRes]) => {
+        setEmployees(empRes.data);
+        setFilteredEmployees(empRes.data);
+        setDepartments(deptRes.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -26,18 +33,29 @@ function Employees() {
       });
   }, []);
 
-  //search
+  // search and department filter
   useEffect(() => {
-  const filtered = employees.filter(emp =>
-    (emp.name || "").toLowerCase().includes(search.toLowerCase()) ||
-    (emp.email || "").toLowerCase().includes(search.toLowerCase()) ||
-    ((emp.department?.name || "")).toLowerCase().includes(search.toLowerCase())
-  );
-  setFilteredEmployees(filtered);
-}, [search, employees]);
+    let filtered = employees;
 
+    if (selectedDepartment !== "All") {
+      filtered = filtered.filter(
+        (emp) => emp.department?.name === selectedDepartment
+      );
+    }
 
-  //sorting
+    filtered = filtered.filter(
+      (emp) =>
+        emp.name.toLowerCase().includes(search.toLowerCase()) ||
+        emp.email.toLowerCase().includes(search.toLowerCase()) ||
+        (emp.department?.name || emp.department || "")
+          .toLowerCase()
+          .includes(search.toLowerCase())
+    );
+
+    setFilteredEmployees(filtered);
+  }, [search, employees, selectedDepartment]);
+
+  // sorting 
   const handleSort = (key) => {
     const order = sortKey === key && sortOrder === "asc" ? "desc" : "asc";
     const sorted = [...filteredEmployees].sort((a, b) => {
@@ -59,7 +77,7 @@ function Employees() {
   if (loading) {
     return (
       <div className="page">
-        <h2>Employee Management</h2>
+        <h2>Employee Details</h2>
         <div className="page-content" style={{ textAlign: "center", padding: "2rem" }}>
           <p>Loading employees...</p>
         </div>
@@ -70,25 +88,36 @@ function Employees() {
   return (
     <div className="page">
       <h2>Employee Management</h2>
+        <div className="search-filter-container">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search employees..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
 
-      <div style={{ marginBottom: "1rem", display: "flex", gap:"2rem", justifyContent: "right"}}>
-        
-        <input
-          type="text"
-          placeholder="Search by name, email, department"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{ padding: "0.5rem", width: "300px", borderRadius: "4px", border: "1px solid #ccc" }}
-        />
+          <select
+            className="department-select"
+            value={selectedDepartment}
+            onChange={(e) => setSelectedDepartment(e.target.value)} >
+            <option value="All" disabled hidden>
+            Select Department
+          </option>
+          <option value="All">All Departments</option>
+            {departments.map((dept) => (
+              <option key={dept.id} value={dept.name}>
+                {dept.name}
+              </option>
+            ))}
+          </select>
 
-        <button
-          className="btn btn-add"
-          onClick={() => navigate("/AddEmployee")}
-        >
-          Add Employee
-        </button>
-      </div>
+          <button className="btn btn-add" onClick={() => navigate("/AddEmployee")}>
+            Add +
+          </button>     
+        </div>
 
+      {/* Table */}
       <div className="page-content">
         {filteredEmployees.length === 0 ? (
           <p>No employees found.</p>

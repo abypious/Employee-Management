@@ -6,18 +6,18 @@ function Leaves() {
   const [leaves, setLeaves] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/leaves") // assume your backend endpoint
-      .then((res) => {
-        setLeaves(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8080/api/leaves") // assume your backend endpoint
+  //     .then((res) => {
+  //       setLeaves(res.data);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   const handleUpdateStatus = (id, status) => {
     axios
@@ -33,7 +33,7 @@ function Leaves() {
   if (loading) {
     return (
       <div className="page">
-        <h2>Leave Management</h2>
+        <h2>Leave Details</h2>
         <div className="page-content">
           <p>Loading leave records...</p>
         </div>

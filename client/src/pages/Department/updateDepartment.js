@@ -42,9 +42,16 @@ function UpdateDepartment() {
 
   return (
     <div className="page">
+
+      <div className="page-header">
+        <span className="back-link" onClick={() => navigate(-1)}>
+          ← Back
+        </span>
+      </div>
+
       <h2>Update Department</h2>
-      <div className="page-content">
-        <form className="form-container" onSubmit={handleSubmit}>
+      <div className="center-form">
+        <form className="department-form" onSubmit={handleSubmit} >
           <div className="form-group">
             <label>Department Name</label>
             <input
@@ -67,14 +74,9 @@ function UpdateDepartment() {
             />
           </div>
 
-          <div className="button-group">
-            <button type="submit" className="btn-edit">Update Department</button>
-            <button
-              type="button"
-              className="btn-back"
-              onClick={() => navigate(`/departments`)}
-            >
-              Cancel
+          <div className="button-group full-width">
+            <button type="submit" className="btn btn-add" navigate={-1}> 
+              Update Department
             </button>
           </div>
         </form>

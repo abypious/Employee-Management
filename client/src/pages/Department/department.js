@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Edit3, Trash2 } from "lucide-react"; // icons
 import "./department.css";
 
 function DepartmentDetails() {
@@ -55,66 +56,81 @@ function DepartmentDetails() {
 
   if (loading) {
     return (
-      <div className="page">
+      <div className="page center-content">
         <h2>Department Details</h2>
-        <div className="page-content">
-          <p style={{ textAlign: "center" }}>Loading department details...</p>
-        </div>
+        <p>Loading department details...</p>
       </div>
     );
   }
 
   if (!department) {
     return (
-      <div className="page">
+      <div className="page center-content">
         <h2>Department Details</h2>
-        <div className="page-content">
-          <p style={{ textAlign: "center" }}>Department not found.</p>
-        </div>
+        <p>Department not found.</p>
       </div>
     );
   }
 
   return (
     <div className="page">
+      <div className="page-header">
+        <span className="back-link" onClick={() => navigate(-1)}>
+          ← Back
+        </span>
+      </div>
+
       <h2>Department Details</h2>
+      <div className="center-form">
+        <div className="department-form details-view">
+          {/* Top-right icons */}
+          <div className="top-right-buttons">
+            <button className="icon-btn edit" onClick={handleEdit} title="Edit Department">
+              <Edit3 size={18} />
+            </button>
+            <button className="icon-btn delete" onClick={handleDelete} title="Delete Department">
+              <Trash2 size={18} />
+            </button>
+          </div>
 
-      <div className="page-content">
-        <p><strong>ID:</strong> {department.id}</p>
-        <p><strong>Name:</strong> {department.name}</p>
-        <p><strong>Description:</strong> {department.description || "N/A"}</p>
-
-        <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginTop: "1.5rem" }}>
-          <button className="btn btn-edit" onClick={handleEdit}>Edit Department</button>
-          <button className="btn btn-delete" onClick={handleDelete}>Delete Department</button>
-        </div>
-
-        <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
-          <button className="btn btn-back" onClick={() => navigate("/departments")}>
-            Back to Departments
-          </button>
-        </div>
-
-        {/* Employee List */}
-        <div className="employee-section">
-          <h3>Employees in this Department</h3>
-          {employees.length > 0 ? (
-            <div className="employee-grid">
-              {employees.map((emp) => (
-                <div
-                  key={emp.id}
-                  className="employee-card"
-                  onClick={() => handleEmployeeClick(emp.id)}
-                >
-                  <h4>{emp.name}</h4>
-                  <p><strong>Role:</strong> {emp.role || "N/A"}</p>
-                  <p><strong>Email:</strong> {emp.email || "N/A"}</p>
-                </div>
-              ))}
+          <div className="form-grid">
+            <div className="form-group">
+              <label>ID</label>
+              <p>{department.id}</p>
             </div>
-          ) : (
-            <p className="no-employees">No employees found in this department.</p>
-          )}
+
+            <div className="form-group">
+              <label>Name</label>
+              <p>{department.name}</p>
+            </div>
+
+            <div className="form-group full-width">
+              <label>Description</label>
+              <p>{department.description || "N/A"}</p>
+            </div>
+          </div>
+
+          {/* Employee list section */}
+          <div className="department-section">
+            <h3>Employees in this Department</h3>
+            {employees.length > 0 ? (
+              <div className="department-grid">
+                {employees.map((emp) => (
+                  <div
+                    key={emp.id}
+                    className="department-card"
+                    onClick={() => handleEmployeeClick(emp.id)}
+                  >
+                    <h4>{emp.name}</h4>
+                    <p><strong>Role:</strong> {emp.role || "N/A"}</p>
+                    <p><strong>Email:</strong> {emp.email || "N/A"}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="no-departments">No employees found in this department.</p>
+            )}
+          </div>
         </div>
       </div>
     </div>

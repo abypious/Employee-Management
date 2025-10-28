@@ -10,3 +10,4 @@
 /home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/repository/DepartmentRepository.java
 /home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/repository/EmployeeRepository.java
 /home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/repository/LeaveRepository.java
+/home/abypiousvinoy/projects/employee_management/server/src/main/java/com/example/employee_management/service/EmployeeService.java

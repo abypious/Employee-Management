@@ -1,155 +1,117 @@
+:root {
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --primary: #2563eb;
+  --accent: #10b981;
+  --danger: #dc2626;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  --radius: 10px;
+}
+
 .page {
-  margin-left: 240px; /* leaves space for sidebar */
-  padding: 2rem;
-  min-height: calc(100vh - 56px);
-  background-color: #f9fafb;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-header {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.back-link {
+  font-size: 15px;
+  color: #007bff;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.center-form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.employee-details-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  width: 100%;
+}
+
+.employee-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* two-column layout */
+  gap: 16px 40px;
+  margin-bottom: 25px;
+}
+
+.employee-details-card p {
+  margin: 0;
+  line-height: 1.6;
+  font-size: 15px;
 }
 
 .page h2 {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  color: #111827;
-  margin-bottom: 1.5rem;
+  color: var(--text);
+  margin-bottom: 1rem;
 }
 
 .page-content {
-  background: #fff;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  width: 80%;
 }
 
-/* ===== Dashboard Section ===== */
-
-.dashboard-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1rem;
+.dashboard-content {
+  width: 120%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: var(--shadow);
 }
 
-.card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  padding: 1.5rem;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.card h3 {
-  color: #374151;
-  margin-bottom: 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 500;
-}
-
-.card p {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #111827;
-}
-
-/* ===== Dashboard clickable cards ===== */
-.card-clickable {
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-}
-
-.card-clickable:hover {
-  transform: translateY(-4px);
-  background-color: #f3f4f6;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.employee-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.employee-table th, .employee-table td {
-  padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
-  text-align: left;
-}
-
-.employee-table th {
-  background-color: #f5f5f5;
-}
-
-.employee-row:hover {
-  background-color: #f0f8ff;
-}
-
-.btn-add {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-add:hover {
-  background-color: #45a049;
-}
-
-.button-group {
+/* Two-column Form Layout */
+.form-grid-2col {
   display: flex;
+  flex-wrap: wrap;
+  max-width: 900px;
+  gap: 2rem;
+}
+
+.form-column {
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
-  margin-top: 1.5rem;
 }
-
-.btn-edit,
-.btn-delete,
-.btn-back {
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn-edit {
-  background-color: #007bff;
-  color: white;
-}
-
-.btn-edit:hover {
-  background-color: #0056b3;
-}
-
-.btn-delete {
-  background-color: #dc3545;
-  color: white;
-}
-
-.btn-delete:hover {
-  background-color: #a71d2a;
-}
-
-.btn-back {
-  background-color: #6c757d;
-  color: white;
-}
-
-.btn-back:hover {
-  background-color: #545b62;
-}
-
-/* ===== Add Employee Form ===== */
 
 .form-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: 600px;
+  max-width: 720px;
 }
 
 .form-group {
@@ -158,44 +120,322 @@
 }
 
 .form-group label {
-  font-weight: 500;
-  margin-bottom: 0.5rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--muted);
 }
 
 .form-group input,
+.form-group textarea,
 .form-group select {
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid #e6e9ef;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  background: #fff;
+  transition: all 0.2s ease;
 }
 
 .form-group input:focus,
+.form-group textarea:focus,
 .form-group select:focus {
-  border-color: #4caf50;
+  border-color: var(--primary);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.06);
   outline: none;
-  box-shadow: 0 0 4px rgba(76, 175, 80, 0.3);
 }
 
-.form-container .button-group {
-  display: flex;
+textarea.form-control {
+  min-height: 110px;
+}
+
+.button-group.full-width {
+    justify-content: center;
+  }
+
+.btn {
+  cursor: pointer;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  border: none;
+}
+
+.btn:focus {
+  outline: 3px solid rgba(37, 99, 235, 0.12);
+  outline-offset: 2px;
+}
+
+.btn-add,
+.btn-primary {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.btn-add:hover,
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.12);
+}
+
+.btn-edit,
+.btn-secondary {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid rgba(37, 99, 235, 0.12);
+}
+
+.btn-edit:hover,
+.btn-secondary:hover {
+  background: rgba(37, 99, 235, 0.06);
+}
+
+.btn-delete,
+.btn-danger {
+  background-color: var(--danger);
+  color: #fff;
+}
+
+.btn-delete:hover,
+.btn-danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.12);
+}
+
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.employee-table th,
+.employee-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #eef2f6;
+  text-align: left;
+}
+
+.employee-table th {
+  background: linear-gradient(180deg, #fbfdff, #f6f9ff);
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.employee-table tbody tr:hover {
+  background-color: #fbfdff;
+}
+
+.employee-section {
+  margin-top: 2rem;
+}
+
+.employee-section h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--muted);
+}
+
+.employee-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
-  margin-top: 1.5rem;
 }
 
-/* ===== Add Department Form ===== */
-
-.form-group textarea {
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-  resize: vertical;
+.employee-form {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  width: 100%;
 }
 
-.form-group textarea:focus {
-  border-color: #4caf50;
+.details-view {
+  position: relative;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  width: 100%;
+}
+
+.details-view .form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 40px;
+}
+
+.details-view .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.details-view .form-group label {
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.details-view .form-group p {
+  margin: 0;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 15px;
+  color: #222;
+}
+
+.details-view .full-width {
+  grid-column: span 2;
+}
+
+.details-view .button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 25px;
+  gap: 12px;
+}
+
+/* Search and Filter Container */
+.search-filter-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background: var(--surface);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Search Input */
+.search-input {
+  flex: 1;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid #e6e9ef;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.06);
   outline: none;
-  box-shadow: 0 0 4px rgba(76, 175, 80, 0.3);
 }
 
+/* Department Dropdown */
+.department-select {
+  padding: 0.65rem 0.8rem;
+  border: 1px solid #e6e9ef;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.department-select:hover {
+  border-color: var(--primary);
+}
+
+.department-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.06);
+  outline: none;
+}
+
+@media (max-width: 700px) {
+  .search-filter-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+
+  .department-select,
+  .search-input {
+    width: 100%;
+  }
+}
+
+/* right corner buttons */
+.top-right-buttons {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.icon-btn {
+  background: #f4f4f4;
+  border: none;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.icon-btn:hover {
+  transform: scale(1.05);
+}
+
+.icon-btn.edit {
+  color: #2563eb;
+  background-color: #e0edff;
+}
+
+.icon-btn.edit:hover {
+  background-color: #cddfff;
+}
+
+.icon-btn.delete {
+  color: #dc2626;
+  background-color: #fde8e8;
+}
+
+.icon-btn.delete:hover {
+  background-color: #fbc7c7;
+}
+
+@media (max-width: 600px) {
+  .employee-details-card {
+    padding: 1.25rem;
+  }
+
+  .button-group.full-width {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .btn.btn-primary{
+    width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .page {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .page h2 {
+    text-align: center;
+  }
+
+  .form-grid-2col {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .button-group.full-width {
+    justify-content: space-between;
+  }
+}

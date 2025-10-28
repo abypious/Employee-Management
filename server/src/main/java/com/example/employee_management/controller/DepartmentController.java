@@ -40,7 +40,7 @@ public class DepartmentController {
         return departmentRepository.save(department);
     }
 
-    // PUT update a department
+    // PUT update a department with Id
     @PutMapping("/{id}")
     public Department updateDepartment(@PathVariable Long id, @RequestBody Department deptDetails) {
         Department department = departmentRepository.findById(id).orElse(null);
@@ -58,17 +58,6 @@ public class DepartmentController {
         if(departmentRepository.existsById(id)) {
             departmentRepository.deleteById(id);
             return "Department deleted successfully";
-        }
-        return "Department not found";
-    }
-
-    // DELETE department by Name
-    @DeleteMapping("/name/{name}")
-    public String deleteDepartmentByName(@PathVariable String name) {
-        Department department = departmentRepository.findByName(name);
-        if (department != null) {
-            departmentRepository.delete(department);
-            return "Department '" + name + "' deleted successfully";
         }
         return "Department not found";
     }

@@ -58,7 +58,7 @@ function Departments() {
   if (loading) {
     return (
       <div className="page">
-        <h2>Departments</h2>
+        <h2>Department Details</h2>
         <div className="page-content" style={{ textAlign: "center", padding: "2rem" }}>
           <p>Loading departments...</p>
         </div>
@@ -68,24 +68,21 @@ function Departments() {
 
   return (
     <div className="page">
-      <h2>Departments</h2>
+      <h2>Department Details</h2>
 
-      <div style={{ marginBottom: "1rem", display: "flex", justifyContent: "right", gap: "1rem" }}>
-        <input
-          type="text"
-          placeholder="Search departments"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{ padding: "0.5rem", width: "250px", borderRadius: "4px", border: "1px solid #ccc" }}
-        />
-        <button
-          className="btn btn-add"
-          onClick={() => navigate("/AddDepartment")}
-          style={{ padding: "0.5rem 1rem", borderRadius: "4px" }}
-        >
-          Add Department
-        </button>
-      </div>
+        <div className="search-filter-container">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search employees..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+
+          <button className="btn btn-add" onClick={() => navigate("/AddDepartment")}>
+            Add +
+          </button>     
+        </div>
 
       <div className="page-content">
         {filteredDepartments.length === 0 ? (
