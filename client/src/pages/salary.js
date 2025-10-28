@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/page.css";
+import Popup from "../components/popup";
 
 function Salary() {
   const [employees, setEmployees] = useState([]);
@@ -12,7 +13,11 @@ function Salary() {
   const [sortKey, setSortKey] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
 
-  // Fetch employees and departments
+  const [showPopup, setShowPopup] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [newSalary, setNewSalary] = useState("");
+
   useEffect(() => {
     Promise.all([
       axios.get("http://localhost:8080/api/employees"),
@@ -30,18 +35,15 @@ function Salary() {
       });
   }, []);
 
-  // Filter employees based on search and department
   useEffect(() => {
     let filtered = employees;
 
-    // Department filter
     if (selectedDepartment !== "All") {
       filtered = filtered.filter(
         (emp) => emp.department?.name === selectedDepartment
       );
     }
 
-    // Search filter
     filtered = filtered.filter(
       (emp) =>
         emp.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -52,7 +54,6 @@ function Salary() {
     setFilteredEmployees(filtered);
   }, [search, employees, selectedDepartment]);
 
-  // Sorting function
   const handleSort = (key) => {
     const order = sortKey === key && sortOrder === "asc" ? "desc" : "asc";
     const sorted = [...filteredEmployees].sort((a, b) => {
@@ -69,17 +70,29 @@ function Salary() {
     setFilteredEmployees(sorted);
   };
 
-  // Update salary
-  const handleUpdateSalary = (id) => {
-    const newSalary = prompt("Enter new salary:");
+  const handleUpdateClick = (employee) => {
+    setSelectedEmployee(employee);
+    setNewSalary("");
+    setShowPopup(true);
+  };
+
+  const handleUpdateSalary = () => {
     if (!newSalary || isNaN(newSalary)) return;
 
     axios
-      .put(`http://localhost:8080/api/employees/${id}`, { salary: parseFloat(newSalary) })
+      .put(`http://localhost:8080/api/employees/${selectedEmployee.id}`, {
+        salary: parseFloat(newSalary),
+      })
       .then(() => {
         setEmployees((prev) =>
-          prev.map((emp) => (emp.id === id ? { ...emp, salary: parseFloat(newSalary) } : emp))
+          prev.map((emp) =>
+            emp.id === selectedEmployee.id
+              ? { ...emp, salary: parseFloat(newSalary) }
+              : emp
+          )
         );
+        setShowPopup(false);
+        setShowConfirm(true);
       })
       .catch((err) => console.error(err));
   };
@@ -153,10 +166,7 @@ function Salary() {
                   <td>{emp.department?.name}</td>
                   <td>{emp.salary}</td>
                   <td>
-                    <button
-                      className="btn btn-add"
-                      onClick={() => handleUpdateSalary(emp.id)}
-                    >
+                    <button className="btn btn-add" onClick={() => handleUpdateClick(emp)}>
                       Update Salary
                     </button>
                   </td>
@@ -166,6 +176,41 @@ function Salary() {
           </table>
         )}
       </div>
+
+      {/* Salary Input Popup */}
+      <Popup
+        show={showPopup}
+        title={`Update Salary for ${selectedEmployee?.name}`}
+        onClose={() => setShowPopup(false)}
+      >
+        <input
+          type="number"
+          placeholder="Enter new salary"
+          value={newSalary}
+          onChange={(e) => setNewSalary(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "0.5rem",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+          }}
+        />
+        <div style={{ marginTop: "1rem" }}>
+          <button className="btn btn-ok" onClick={handleUpdateSalary}>
+            Update
+          </button>
+        </div>
+      </Popup>
+
+      {/* Confirmation Popup */}
+      <Popup
+        show={showConfirm}
+        title="Success"
+        showOk
+        onOk={() => setShowConfirm(false)}
+      >
+        <p>Salary updated successfully!</p>
+      </Popup>
     </div>
   );
 }

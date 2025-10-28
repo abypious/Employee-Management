@@ -74,7 +74,7 @@ function Departments() {
           <input
             type="text"
             className="search-input"
-            placeholder="Search employees..."
+            placeholder="Search departments..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />

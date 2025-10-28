@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Edit3, Trash2 } from "lucide-react"; // icons
-import "./department.css";
+import { Edit3, Trash2 } from "lucide-react"; 
+import Popup from "../../components/popup";
+
 
 function DepartmentDetails() {
   const { id } = useParams();
@@ -10,6 +11,9 @@ function DepartmentDetails() {
   const [department, setDepartment] = useState(null);
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   useEffect(() => {
     const fetchDepartment = async () => {
@@ -34,17 +38,20 @@ function DepartmentDetails() {
   }, [id]);
 
   const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this department?")) {
+      setShowDeletePopup(true);
+    };
+
+    const confirmDelete = async () => {
       try {
         await axios.delete(`http://localhost:8080/api/departments/${id}`);
-        alert("Department deleted successfully");
-        navigate("/departments");
+        setShowDeletePopup(false);
+        setShowSuccessPopup(true);
+        setTimeout(() => navigate("/departments"), 3500);
       } catch (error) {
         console.error("Error deleting department:", error);
         alert("Failed to delete department");
       }
-    }
-  };
+    };
 
   const handleEdit = () => {
     navigate(`/UpdateDepartment/${id}`);
@@ -122,7 +129,7 @@ function DepartmentDetails() {
                     onClick={() => handleEmployeeClick(emp.id)}
                   >
                     <h4>{emp.name}</h4>
-                    <p><strong>Role:</strong> {emp.role || "N/A"}</p>
+                    <p><strong>Role:</strong> {emp.jobTitle || "N/A"}</p>
                     <p><strong>Email:</strong> {emp.email || "N/A"}</p>
                   </div>
                 ))}
@@ -133,6 +140,28 @@ function DepartmentDetails() {
           </div>
         </div>
       </div>
+      {/* Delete Confirmation Popup */}
+      <Popup
+        show={showDeletePopup}
+        title="Confirm Delete"
+        onClose={() => setShowDeletePopup(false)}
+      >
+        <p>Are you sure you want to delete <b>{department.name}</b>?</p>
+        <div className="popup-actions">
+          <button className="btn btn-ok" onClick={confirmDelete}>Yes, Delete</button>
+        </div>
+      </Popup>
+
+      {/* Success Popup */}
+      <Popup
+        show={showSuccessPopup}
+        title="Department Deleted"
+        onClose={() => setShowSuccessPopup(false)}
+        showOk={true}
+        onOk={() => setShowSuccessPopup(false)}
+      >
+        <p>The department was deleted successfully.</p>
+      </Popup>
     </div>
   );
 }

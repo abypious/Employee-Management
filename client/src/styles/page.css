@@ -136,3 +136,14 @@
 textarea.form-control {
   min-height: 110px;
 }
+
+/* popup button style */
+.btn-delete {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  margin-left: 8px;
+}
+.btn-delete:hover {
+  background-color: #c62828;
+}

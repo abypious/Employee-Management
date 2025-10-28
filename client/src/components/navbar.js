@@ -13,7 +13,6 @@ function Navbar() {
     navigate("/login");
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -27,21 +26,27 @@ function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar-container">
+        {/* Brand */}
         <Link to="/dashboard" className="navbar-brand">
+          <div className="brand-logo">EM</div>
           <div className="brand-text">Employee Management</div>
         </Link>
 
+        {/* Right side */}
         <div className="navbar-right">
+          {/* Notification bell */}
           <button className="icon-btn">
             <FaBell />
           </button>
 
+          {/* Profile */}
           <div className="avatar-wrapper" ref={dropdownRef}>
             <div className="avatar" onClick={() => setProfileOpen(!profileOpen)}>A</div>
             {profileOpen && (
               <div className="profile-dropdown">
                 <div className="profile-info">
                   <strong>Administrator</strong>
+                  <small>admin@example.com</small>
                 </div>
                 <hr />
                 <button onClick={handleLogout} className="dropdown-btn">

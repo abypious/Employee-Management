@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Edit3, Trash2 } from "lucide-react"; // icons
+import { Edit3, Trash2 } from "lucide-react";
+import Popup from "../../components/popup";
 import "./employee.css";
 
 function EmployeeDetails() {
@@ -9,6 +10,9 @@ function EmployeeDetails() {
   const navigate = useNavigate();
   const [employee, setEmployee] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   useEffect(() => {
     axios
@@ -24,15 +28,18 @@ function EmployeeDetails() {
   }, [id]);
 
   const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this employee?")) {
-      try {
-        await axios.delete(`http://localhost:8080/api/employees/${id}`);
-        alert("Employee deleted successfully");
-        navigate("/employees");
-      } catch (error) {
-        console.error("Error deleting employee:", error);
-        alert("Failed to delete employee");
-      }
+    setShowDeletePopup(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:8080/api/employees/${id}`);
+      setShowDeletePopup(false);
+      setShowSuccessPopup(true);
+      setTimeout(() => navigate("/employees"), 3500);
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+      alert("Failed to delete employee");
     }
   };
 
@@ -146,6 +153,29 @@ function EmployeeDetails() {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Popup */}
+      <Popup
+        show={showDeletePopup}
+        title="Confirm Delete"
+        onClose={() => setShowDeletePopup(false)}
+      >
+        <p>Are you sure you want to delete <b>{employee.name}</b>?</p>
+        <div className="popup-actions">
+          <button className="btn btn-ok" onClick={confirmDelete}>Yes, Delete</button>
+        </div>
+      </Popup>
+
+      {/* Success Popup */}
+      <Popup
+        show={showSuccessPopup}
+        title="Employee Deleted"
+        onClose={() => setShowSuccessPopup(false)}
+        showOk={true}
+        onOk={() => setShowSuccessPopup(false)}
+      >
+        <p>The employee was deleted successfully.</p>
+      </Popup>
     </div>
   );
 }
